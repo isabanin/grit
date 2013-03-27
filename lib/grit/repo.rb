@@ -205,6 +205,10 @@ module Grit
       Blame.new(self, file, commit)
     end
 
+    def mtime
+      File.mtime(self.path).to_i
+    end
+
     # An array of Head objects representing the branch heads in
     # this repo
     #
