@@ -3,7 +3,7 @@ Gem::Specification.new do |s|
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.rubygems_version = '1.3.5'
 
-  s.name              = 'gitlab-grit'
+  s.name              = 'grit'
   s.version           = '1.0.0'
   s.date              = '2013-03-02'
   s.rubyforge_project = 'grit'
