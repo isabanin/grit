@@ -55,6 +55,7 @@ module Grit
     # Set +debug+ to true to log all git calls and responses
     attr_accessor :debug
     attr_accessor :use_git_ruby
+    attr_accessor :use_cache
     attr_accessor :no_quote
 
     # The standard +logger+ for debugging git calls - this defaults to a plain STDOUT logger
@@ -65,7 +66,16 @@ module Grit
   end
   self.debug = false
   self.use_git_ruby = true
+  self.use_cache = false
   self.no_quote = false
+
+  def self.no_cache
+    prev = Grit.use_cache
+    Grit.use_cache = false
+    retval = yield
+    Grit.use_cache = prev
+    retval
+  end
 
   @logger ||= ::Logger.new(STDOUT)
 
