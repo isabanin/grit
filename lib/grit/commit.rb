@@ -251,6 +251,11 @@ module Grit
       @committed_date
     end
 
+    def branches
+      raw = @repo.git.native("branch --no-color --contains #{@id}")
+      raw.to_s.split("\n").map(&:strip).map { |b| b.gsub(/\*\s+/,"") }
+    end
+
     def to_patch
       @repo.git.format_patch({'1' => true, :stdout => true}, to_s)
     end
