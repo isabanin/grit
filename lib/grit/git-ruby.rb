@@ -1,4 +1,5 @@
 require 'grit/git-ruby/repository'
+require 'grit/git-ruby/file_index'
 
 module Grit
 
@@ -199,6 +200,21 @@ module Grit
       try_run { ruby_git.cat_file_type(ref).to_s }
     end
 
+    def blame_tree(commit, path = nil)
+      begin
+        path = [path].join('/').to_s + '/' if (path && path != '')
+        path = '' if !path.is_a? String
+        commits = file_index.last_commits(rev_parse({}, commit), looking_for(commit, path))
+        clean_paths(commits)
+      rescue FileIndex::IndexFileNotFound
+        {}
+      end
+    end
+
+    def file_index
+      @git_file_index ||= FileIndex.new(@git_dir)
+    end
+
     def ruby_git
       @ruby_git_repo ||= Repository.new(@git_dir)
     end
@@ -210,7 +226,10 @@ module Grit
         Timeout.timeout(self.class.git_timeout) do
           ret = yield
         end
-        @bytes_read += ret.size
+        
+        if ret.respond_to?(:size)
+          @bytes_read += ret.size
+        end
 
         #if @bytes_read > 5242880 # 5.megabytes
         #  bytes = @bytes_read
@@ -222,7 +241,7 @@ module Grit
       rescue Timeout::Error => e
         bytes = @bytes_read
         @bytes_read = 0
-        raise Grit::Git::GitTimeout.new(command, bytes)
+        raise Grit::Git::GitTimeout.new("unknown yield", bytes)
       end
 
       def looking_for(commit, path = nil)
