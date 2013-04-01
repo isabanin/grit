@@ -252,7 +252,7 @@ module Grit
     end
 
     def branches
-      raw = @repo.git.native("branch --no-color --contains #{@id}")
+      raw = @repo.git.native(:branch,  'no-color' => true, :contains => @id)
       raw.to_s.split("\n").map(&:strip).map { |b| b.gsub(/\*\s+/,"") }
     end
 
