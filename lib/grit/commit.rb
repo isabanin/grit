@@ -202,7 +202,7 @@ module Grit
       paths.unshift(b)    unless b.nil?
       paths.unshift(a)
       options = {:full_index => true}.update(options)
-      text    = repo.git.diff(options, *paths)
+      text    = repo.git.native(:diff, options, *paths)
       Diff.list_from_string(repo, text)
     end
 

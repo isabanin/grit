@@ -273,7 +273,7 @@ class TestRepo < Test::Unit::TestCase
   # commit_diff
 
   def test_diff
-    Git.any_instance.expects(:diff).returns(fixture('diff_p'))
+    Git.any_instance.expects(:native).returns(fixture('diff_p'))
     diffs = @r.commit_diff('master')
 
     assert_equal 15, diffs.size
