@@ -2,8 +2,7 @@ module Grit
 
   class Blame
 
-    attr_reader :lines
-    attr_accessor :contents_without_metadata, :commits_for_lines
+    attr_reader :lines, :contents_without_metadata, :commits_for_lines
 
     def initialize(repo, file, commit, lines=nil)
       @repo = repo
@@ -23,8 +22,8 @@ module Grit
     end
 
     def process_raw_blame(output)
-      self.commits_for_lines ||= []
-      self.contents_without_metadata ||= ''
+      @commits_for_lines ||= []
+      @contents_without_metadata ||= ''
       lines, final = [], []
       info, commits = {}, {}
 
@@ -33,9 +32,9 @@ module Grit
         if line[0, 1] == "\t"
           tmp_line = line[1, line.size]
           lines << tmp_line
-          self.contents_without_metadata << tmp_line << "\n"
+          @contents_without_metadata << tmp_line << "\n"
         elsif m = /^(\w{40}) (\d+) (\d+)/.match(line)
-          self.commits_for_lines << m[1]
+          @commits_for_lines << m[1]
           commit_id, old_lineno, lineno = m[1], m[2].to_i, m[3].to_i
           commits[commit_id] = nil if !commits.key?(commit_id)
           info[lineno] = [commit_id, old_lineno]
