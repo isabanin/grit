@@ -241,4 +241,4 @@ reference the code for more functionality.
 Copyright
 ---------
 
-Copyright (c) 2010 Tom Preston-Werner. See LICENSE for details.
+Copyright (c) 2013 Tom Preston-Werner. See LICENSE for details.
