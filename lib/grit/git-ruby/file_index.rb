@@ -121,7 +121,7 @@ module Grit
 
       # read and parse the file-index data
       def read_index
-        f = File.new(@index_file)
+        f = File.new(@index_file, 'rb')
         @sha_count = 0
         @commit_index = {}
         @commit_order = {}
