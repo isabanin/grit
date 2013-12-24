@@ -127,7 +127,7 @@ module Grit
         @commit_order = {}
         @all_files = {}
         while line = f.gets
-          line.encode!('UTF-8', 'UTF-8', :invalid => :replace, :undef => :replace, :replace => '')
+          line.encode!('UTF-8', 'binary', :invalid => :replace, :undef => :replace, :replace => '')
           if /^(\w{40})/.match(line)
             shas = line.scan(/(\w{40})/)
             current_sha = shas.shift.first
