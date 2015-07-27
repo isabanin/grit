@@ -165,6 +165,9 @@ module Grit
         # not doing anything with this yet, but it's sometimes there
         encoding = lines.shift.split.last if lines.first =~ /^encoding/
 
+        # ignore hg-git crap in commits
+        lines.shift while lines.first =~ /^HG:/
+
         # GITLAB patch
         # Skip Signature and other raw data
         lines.shift while lines.first =~ /^ /
